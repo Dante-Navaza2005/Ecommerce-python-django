@@ -8,14 +8,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 </head>
 <body>
-    <nav>
-        Navigation bar
-        <a></a>
-        <a></a>
-        <a></a>
-        <a></a>
-        <a></a>
-    </nav>
+    {% include 'navbar.html' %}
     {% block body %} 
     {% endblock %} 
 </body>
