@@ -106,7 +106,7 @@ When you enter a website link you are doing a **request** to that website.  Said
 * GET: Getting a desired information
 * POST:  Sending a determined information to the website
 
-This will be seen in the homepage() function, that will recieve a request as its parameter so it can return the html file of the homepage template, which will be created inside a templates folder on the store file  that django will automatically search for.
+This will be seen in the homepage() function, that will recieve a request as its parameter so it can return the html file of the homepage template, which will be created inside a templates folder on the store file  that django will automatically search for. jij
 
 ![1711742186159](image/README/1711742186159.png)
 

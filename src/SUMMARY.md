@@ -1,6 +1,17 @@
 # Summary
 
-[home](./INDEX.md)
+[Introduction](README.md)
 
-- [Chapter 1](./chapter_1.md)
-  - [chapter2.2](./chapter_1_1.md)
+# First steps
+
+- [Initializing](1-First_steps\README.md)
+  - [Ecommerce file](1-First_steps\Ecommerce_file.md)
+  - [Store app file](1-First_steps\Store_app_file.md)
+
+# Reference Guide
+
+- [Command Line Tool](2)
+
+---
+
+[Contributors](misc/contributors.md)
