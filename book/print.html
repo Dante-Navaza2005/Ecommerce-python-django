@@ -89,7 +89,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">First steps</li><li class="chapter-item expanded "><a href="1-First_steps/index.html"><strong aria-hidden="true">1.</strong> Initializing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="1-First_steps/Ecommerce_file.html"><strong aria-hidden="true">1.1.</strong> Ecommerce file</a></li><li class="chapter-item expanded "><a href="1-First_steps/Store_app_file.html"><strong aria-hidden="true">1.2.</strong> Store app file</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Reference Guide</li><li class="chapter-item expanded "><a href="2.html"><strong aria-hidden="true">2.</strong> Command Line Tool</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="misc/contributors.html">Contributors</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction </a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">First steps</li><li class="chapter-item expanded "><a href="1-First_steps/index.html"><strong aria-hidden="true">1.</strong> Initializing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="1-First_steps/Ecommerce_file.html"><strong aria-hidden="true">1.1.</strong> Ecommerce file</a></li><li class="chapter-item expanded "><a href="1-First_steps/Store_app_file.html"><strong aria-hidden="true">1.2.</strong> Store app file</a></li></ol></li><li class="chapter-item expanded "><a href="2-Creating_first_page/creating_first_page.html"><strong aria-hidden="true">2.</strong> Creating first page</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Main content</li><li class="chapter-item expanded "><a href="3-Creation-of-various-urls/3-Creation-of-various-urls.html"><strong aria-hidden="true">3.</strong> Creation of various urls</a></li><li class="chapter-item expanded "><a href="4-Static-Archives/4-Static-Archives.html"><strong aria-hidden="true">4.</strong> Static Archives</a></li><li class="chapter-item expanded "><a href="5-Databases/index.html"><strong aria-hidden="true">5.</strong> Databases</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="5-Databases/database-models.html"><strong aria-hidden="true">5.1.</strong> Database models</a></li><li class="chapter-item expanded "><a href="5-Databases/admin-area.html"><strong aria-hidden="true">5.2.</strong> Admin area and superuser</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Reference Guide</li><li class="chapter-item expanded "><a href="2.html"><strong aria-hidden="true">6.</strong> Command Line Tool</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="misc/contributors.html">Contributors</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -225,6 +225,345 @@
 </li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="store-app-folder"><a class="header" href="#store-app-folder">Store app folder</a></h1>
+<ul>
+<li>The migration folder will store the modifications done in the databases</li>
+<li>The <strong>__ init __.py</strong> file serves the same purpose as the ecommerce file to allow the program to be initialized</li>
+<li>The <strong>admin.py</strong> file will contain what will appear in the admin page of the website</li>
+<li>The <strong>models.py</strong> file will contain the models of the databases necessary for the creation of the products</li>
+<li>The <strong>apps.py</strong> file delcares the name of the app to be added in the main configuration</li>
+<li>The <strong>tests.py</strong> file is useful for performing tests and experiment features</li>
+<li>The <strong>views.py</strong> file will contains what will appear in each url mentioned in the urls.py file</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="creating-first-page"><a class="header" href="#creating-first-page">Creating first page</a></h1>
+<p>In the urls.py file we added the include() function in the imports to use the urls from other apps</p>
+<pre><code class="language-python">from django.urls import path, include #? Added the include function to use the urls from the store app
+</code></pre>
+<p>We will create our first url path for the main online store which will acess the links on the store urls file:</p>
+<pre><code class="language-python">path('', include('store.urls')), #? all the links from the store app will be loaded on the  root url (as we will only use one app, 'store')
+</code></pre>
+<p>Next we will create the urls.py file in the store folder so it can be acessed. Afterwards we will add the link of the homepage</p>
+<p>In order to do that, we will first add a homepage() function to the views.py file as it is responsible for what happens in each url.</p>
+<pre><code class="language-python">def homepage():
+    pass
+</code></pre>
+<p>Now we will create the homepage url:</p>
+<pre><code class="language-python">from django.urls import path
+from .views import * #? Importing everything from the views folder in the same directory
+
+urlpatterns = [
+    path('', homepage, name="homepage"), #? first parameter is the url, second is what function will be runned at the url, and the third is the internal name of the link used to reference the link regardless of its url domain
+]
+</code></pre>
+<p>When you enter a website link you are doing a <strong>request</strong> to that website.  Said requests usally have two formats:</p>
+<ul>
+<li>GET: Getting a desired information</li>
+<li>POST:  Sending a determined information to the website</li>
+</ul>
+<p>This will be seen in the homepage() function, that will recieve a request as its parameter so it can return the html file of the homepage template, which will be created inside a templates folder on the store file  that django will automatically search for.</p>
+<p><img src="2-Creating_first_page/image/creating_first_page/1712083851705.png" alt="1712083851705" /></p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    Hello World!
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>Now we will edit the homepage function in the store's views.py file to recieve the request of returning said html file.</p>
+<pre><code class="language-python">def homepage(request): #? the first parameter always has to be a request
+    return render(request, 'homepage.html') #? returns the homepage
+</code></pre>
+<p>Testing (remember to always be inside the ecommerce folder in the cmd prompt):</p>
+<pre><code>cd ecommerce
+</code></pre>
+<pre><code>python manage.py runserver
+</code></pre>
+<p><img src="2-Creating_first_page/image/creating_first_page/1712083868573.png" alt="1712083868573" /></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="creation-of-various-urls"><a class="header" href="#creation-of-various-urls">Creation of various urls</a></h1>
+<p>We will create 6 different links in total:</p>
+<ul>
+<li>Main page</li>
+<li>Store</li>
+<li>Your account</li>
+<li>Login</li>
+<li>Cart</li>
+<li>Checkout</li>
+</ul>
+<p>In order to do this we will repeat the same steps shown previously with the creation of the homepage.</p>
+<ol>
+<li>Defining a url for each page on the urls.py:</li>
+</ol>
+<pre><code class="language-python">urlpatterns = [
+    path('', homepage, name="homepage"), #? first parameter is the url, second is what function will be runned at the url, and the third is the internal name of the link used to reference the link regardless of its url domain
+    path('store/', store, name="store"), 
+    path('youraccount/', your_account, name="your_account"), 
+    path('login/', login, name="login"), 
+    path('cart/', cart, name="cart"), 
+    path('checkout/', checkout, name="checkout"), 
+]
+</code></pre>
+<p>Defining a function for each page on the views.py (the "your_account" and "login" functions were separated for organization purposes as they are both related to the user and therefore were directed into a separate user folder located inside the templates folder):</p>
+<pre><code class="language-python"># Create your views here.
+def homepage(request): #? the first parameter always has to be a request
+    return render(request, 'homepage.html') #? returns the homepage
+
+def store(request): 
+    return render(request, 'store.html') 
+
+def cart(request): 
+    return render(request, 'cart.html') 
+
+def checkout(request): 
+    return render(request, 'checkout.html') 
+
+
+
+def your_account(request): 
+    return render(request, 'user/your_account.html') 
+
+def login(request): 
+    return render(request, 'user/login.html') 
+</code></pre>
+<p>Creating the html file  for each path</p>
+<p><img src="3-Creation-of-various-urls/image/3-Creation-of-various-urls/1712086289692.png" alt="1712086289692" /></p>
+<p>In order to dinamically edit all html files, we will create a base.html which will contain all the data that will be shared amongst the other html files. As we will only want to change the body section, we will utilize the {% block body %} and {% endblock %} features which allow us to edit those sections individualy while keeping the rest that is outside of the block the same for all html files.</p>
+<p>base.html created inside the templates folder:</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Ecommerce Reserva&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    {% block body %} 
+    {% endblock %} 
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>Now we will extend the code of the base file to the all other html files as seen in this code of the cart.html</p>
+<pre><code class="language-html">{% extends 'base.html' %}
+
+{% block body %}
+
+&lt;h3&gt;
+    Cart
+&lt;/h3&gt;
+
+{% endblock %}
+</code></pre>
+<hr />
+<div style="break-before: page; page-break-before: always;"></div><h1 id="static-archives"><a class="header" href="#static-archives">Static Archives</a></h1>
+<p>Now we will create a folder for our static archives (midia, css, js) inside the main ecommerce project folder. Inside the folder 'static' we will create other three folders:</p>
+<ul>
+<li>css</li>
+<li>images</li>
+<li>js</li>
+</ul>
+<p>In order to load the information of the static files into the html files we will add the following line of code below the {% extends 'base.html' %} in every html file</p>
+<pre><code class="language-html">{% load static %}
+</code></pre>
+<p>Obs: it is necessary to put this code in every file as it is used by django to load data instead of only visualizing it to the user.</p>
+<p>Afterwards, in the settings.py file we will specify the directory of the static files as django won't automatically search for them</p>
+<pre><code class="language-python">import os # put this in the beginning of the file
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/5.0/howto/static-files/
+
+STATIC_URL = 'static/' #? the link where the static files are hosted
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+</code></pre>
+<p>Next, we will create a css file on the css folder which will be referenced on the base html file:</p>
+<pre><code class="language-html">&lt;title&gt;Ecommerce Reserva&lt;/title&gt;
+    &lt;link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}"&gt;
+</code></pre>
+<p>Now, we will create a navigation bar. For organization purposes we will create a new html file 'navbar.html' on the templates folder that will contain the code for the navbar. We performed this approach as later on the navigation bar will become very complex and it will be best practice to separate large segments of code into other files.</p>
+<pre><code class="language-html">&lt;nav&gt;
+    &lt;a href = "{% url 'homepage' %}"&gt;Reserva&lt;/a&gt;
+    &lt;a href = "{% url 'store' %}"&gt;Store&lt;/a&gt;
+    &lt;a href = "{% url 'login' %}"&gt;Login&lt;/a&gt;
+    &lt;a href = "{% url 'your_account' %}"&gt;My Account&lt;/a&gt;
+    &lt;a href = "{% url 'cart' %}"&gt;Cart&lt;/a&gt;
+&lt;/nav&gt;
+</code></pre>
+<p>Note that the checkout url wasnt mentioned as it will be acessed from the cart url.</p>
+<pre><code class="language-html">{% block body %}
+
+&lt;h3&gt;Cart&lt;/h3&gt;
+
+&lt;a href = "{% url 'checkout' %}"&gt;Checkout&lt;/a&gt;
+
+{% endblock %}
+</code></pre>
+<p>Now we will include the separate navigation bar file on the base html:</p>
+<pre><code class="language-html">&lt;body&gt;
+    {% include 'navbar.html' %}
+    {% block body %} 
+    {% endblock %} 
+&lt;/body&gt;
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="databases"><a class="header" href="#databases">Databases</a></h1>
+<p>Now we will create the models for the relations between the different sets of data on our database</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="database-models"><a class="header" href="#database-models">Database models</a></h1>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Client</th></tr></thead><tbody>
+<tr><td style="text-align: center">name</td></tr>
+<tr><td style="text-align: center">email</td></tr>
+<tr><td style="text-align: center">phone</td></tr>
+<tr><td style="text-align: center">user</td></tr>
+</tbody></table>
+</div>
+<hr />
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Categories (Ex: Masculine, feminine, infant, etc.)</th></tr></thead><tbody>
+<tr><td style="text-align: center">name</td></tr>
+</tbody></table>
+</div>
+<hr />
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Types (Ex: shirts, shorts, pants, etc)</th></tr></thead><tbody>
+<tr><td style="text-align: center">name</td></tr>
+</tbody></table>
+</div>
+<hr />
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Product</th></tr></thead><tbody>
+<tr><td style="text-align: center">image</td></tr>
+<tr><td style="text-align: center">name</td></tr>
+<tr><td style="text-align: center">price</td></tr>
+<tr><td style="text-align: center">active_state (cant delete the whole database if inactive as it would also delete all the history entries)</td></tr>
+<tr><td style="text-align: center">category</td></tr>
+<tr><td style="text-align: center">type</td></tr>
+</tbody></table>
+</div>
+<hr />
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Itemstock (different variations of the item)</th></tr></thead><tbody>
+<tr><td style="text-align: center">product (Ex: shorts)</td></tr>
+<tr><td style="text-align: center">color</td></tr>
+<tr><td style="text-align: center">size (Ex: XL, L, M, etc)</td></tr>
+<tr><td style="text-align: center">quantity</td></tr>
+</tbody></table>
+</div>
+<hr />
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Adress</th></tr></thead><tbody>
+<tr><td style="text-align: center">street</td></tr>
+<tr><td style="text-align: center">number</td></tr>
+<tr><td style="text-align: center">apartment</td></tr>
+<tr><td style="text-align: center">zip_code</td></tr>
+<tr><td style="text-align: center">city</td></tr>
+<tr><td style="text-align: center">state</td></tr>
+<tr><td style="text-align: center">client</td></tr>
+</tbody></table>
+</div>
+<hr />
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Order</th></tr></thead><tbody>
+<tr><td style="text-align: center">client</td></tr>
+<tr><td style="text-align: center">end_date</td></tr>
+<tr><td style="text-align: center">finished</td></tr>
+<tr><td style="text-align: center">id_transaction</td></tr>
+<tr><td style="text-align: center">adress</td></tr>
+</tbody></table>
+</div>
+<hr />
+<p>With the prelimenary model ready we now can create the models themselves using classes, starting with the client model:</p>
+<pre><code class="language-python">class Client(models.Model): #? dont use plural names as django automatically puts a 's' after the name. Also a id is automatically created for each class
+    name = models.CharField(max_length=200, null=True, blank=True) #? charfields are text fields. max_length determines the max number of characters
+    email = models.CharField(max_length=200, null=True, blank=True)
+    phone = models.CharField(max_length=200, null=True, blank=True)
+    id_session = models.CharField(max_length=200, null=True, blank=True)
+    user = models.OneToOneField(User, null = True, blank = True, on_delete = models.CASCADE) #? each client can only be one user and one user can only be one client. Cascade deletes everyting associated to the user if its account is deleted
+</code></pre>
+<p>Note: We added the null=True and blank=True parameters as the client will be able to perform purchases whithout having to create a account. The id_session attribute will be used to store the data provided by said users.</p>
+<p>You also need to import the default table for Users in django used in authentication processes:</p>
+<pre><code class="language-python">from django.contrib.auth.models import User
+</code></pre>
+<p>Now we will repeat the procedure for the other elements, with slight variations that are shown in the code:</p>
+<pre><code class="language-python">class Categoric(models.Model):
+    name = models.CharField(max_length=200, null=True, blank=True)
+
+
+class Type(models.Model):
+    name = models.CharField(max_length=200, null=True, blank=True)
+
+class Product(models.Model):
+    image = models.CharField(max_length = 400, null=True, blank=True) #? we will store the file name of the image so it can be accessed in the images folder
+    name = models.CharField(max_length=200, null=True, blank=True)
+    price = models.DecimalField(max_digits = 7, decimal_places = 2, null=True, blank=True) #? max price is 99,999.99
+    active = models.BooleanField(default=True)
+    category = models.ForeignKey(Categoric, blank=True, null=True, on_delete=models.SET_NULL) #? primary key is a id associated to only that category,ForeignKey relates a category to another category with a diferent id. One product has only one category but one category has many products
+    product_type = models.ForeignKey(Type, blank=True, null=True, on_delete=models.SET_NULL) #? When you delete a type or category, it will only set that product type to null, and not all the others when using CASCADE
+
+class ItemStock(models.Model):
+    product = models.ForeignKey(Product, blank=True, null=True, on_delete=models.SET_NULL) #? one itemstock is associated to a single product however one product can have many itemstocks
+    color = models.CharField(max_length=200, null=True, blank=True)
+    size = models.CharField(max_length=200, null=True, blank=True)
+    quantity = models.IntegerField(default=0)
+
+
+class Adres(models.Model):
+    street = models.CharField(max_length=200, null=True, blank=True)
+    number = models.IntegerField(default=0)
+    apartment = models.CharField(max_length=200, null=True, blank=True)
+    zip_code = models.CharField(max_length=200, null=True, blank=True)
+    city = models.CharField(max_length=200, null=True, blank=True)
+    state = models.CharField(max_length=200, null=True, blank=True)
+    client = models.ForeignKey(Client, blank=True, null=True, on_delete=models.SET_NULL)
+
+
+class Order(models.Model):
+    client = models.ForeignKey(Client, blank=True, null=True, on_delete=models.SET_NULL)
+    end_date = models.DateTimeField(null=True, blank=True)
+    finished = models.BooleanField(default=False)
+    id_transaction = models.CharField(max_length=200, null=True, blank=True)
+    adress = models.ForeignKey(Adres, blank=True, null=True, on_delete=models.SET_NULL)
+
+
+class OrderedItems(models.Model):
+    itemstock = models.ForeignKey(ItemStock, blank=True, null=True, on_delete=models.SET_NULL)
+    quantity = models.IntegerField(default=0)
+    order = models.ForeignKey(Order, blank=True, null=True, on_delete=models.SET_NULL)
+
+</code></pre>
+<p><strong>Note: Some classes such as 'adres' are itentionally written wrong as django automatically places a s after the names of the classes.</strong></p>
+<p>Migrating the changes to the main database throught the cmd prompt:</p>
+<pre><code>python manage.py makemigrations
+</code></pre>
+<p><img src="5-Databases/image/database-models/1712087894878.png" alt="1712087894878" /></p>
+<pre><code>python manage.py migrate
+</code></pre>
+<p><img src="5-Databases/image/database-models/1712087970118.png" alt="1712087970118" /></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="admin-area-and-superuser"><a class="header" href="#admin-area-and-superuser">Admin area and superuser</a></h1>
+<p>In order to manage the admin page of the website we first need to create a superuser account in the cmd prompt:</p>
+<pre><code>python manage.py createsuperuser
+</code></pre>
+<p><img src="5-Databases/image/admin-area/1712088198628.png" alt="1712088198628" /></p>
+<p>Note: the password is automatically hidden</p>
+<p>After running the server, enter the admin page throught the '/admin' url and perform the login using the username and password just provided.</p>
+<p>After logging in we enter in the admin page where we can manage all the users:</p>
+<p><img src="5-Databases/image/admin-area/1712088183920.png" alt="1712088183920" /></p>
+<p>However, the data tables we created previously are not appearing on the page. In order to fix that we need to import the models  into the admin.py file located inside the store folder and register them:</p>
+<pre><code class="language-python">from .models import *
+
+# Register your models here.
+admin.site.register([Categoric, Client, Type, Product, ItemStock, Order, OrderedItem, Adres])
+</code></pre>
+<p>Now the data tables are showing correctly on the admin page:</p>
+<p><img src="5-Databases/image/admin-area/1712088166168.png" alt="1712088166168" /></p>
+<p>When testing the page we run into another problem, after we add a new category / type the new item only shows as "object" instead of showing its actual name:</p>
+<p><img src="5-Databases/image/admin-area/1712088151582.png" alt="1712088151582" /></p>
+<p><img src="5-Databases/image/admin-area/1712088122145.png" alt="1712088122145" /></p>
+<p>In order to fix this, we will add a new method to the 'Categoric' and 'Type' classes:</p>
+<pre><code class="language-python">class Categoric(models.Model):
+    name = models.CharField(max_length=200, null=True, blank=True)
+
+    def __str__(self) :
+        return str(self.name)
+</code></pre>
+<p>The __ str__ method is responsible for what name is displayed after a item is created. In this case we want to display the name itself of the item.</p>
+<p><img src="5-Databases/image/admin-area/1712088097963.png" alt="1712088097963" /></p>
+<p>Note: We don't need to execute the migration commands as we didn't change the database table itself, we only added a new method.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="command-line-tool"><a class="header" href="#command-line-tool">Command Line Tool</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="contributors"><a class="header" href="#contributors">Contributors</a></h1>
 

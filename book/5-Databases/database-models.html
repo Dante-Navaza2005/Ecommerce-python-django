@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Initializing - Ecommerce Step-by-step guide</title>
+        <title>Database models - Ecommerce Step-by-step guide</title>
 
 
         <!-- Custom HTML head -->
@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction </a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">First steps</li><li class="chapter-item expanded "><a href="../1-First_steps/index.html" class="active"><strong aria-hidden="true">1.</strong> Initializing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../1-First_steps/Ecommerce_file.html"><strong aria-hidden="true">1.1.</strong> Ecommerce file</a></li><li class="chapter-item expanded "><a href="../1-First_steps/Store_app_file.html"><strong aria-hidden="true">1.2.</strong> Store app file</a></li></ol></li><li class="chapter-item expanded "><a href="../2-Creating_first_page/creating_first_page.html"><strong aria-hidden="true">2.</strong> Creating first page</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Main content</li><li class="chapter-item expanded "><a href="../3-Creation-of-various-urls/3-Creation-of-various-urls.html"><strong aria-hidden="true">3.</strong> Creation of various urls</a></li><li class="chapter-item expanded "><a href="../4-Static-Archives/4-Static-Archives.html"><strong aria-hidden="true">4.</strong> Static Archives</a></li><li class="chapter-item expanded "><a href="../5-Databases/index.html"><strong aria-hidden="true">5.</strong> Databases</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../5-Databases/database-models.html"><strong aria-hidden="true">5.1.</strong> Database models</a></li><li class="chapter-item expanded "><a href="../5-Databases/admin-area.html"><strong aria-hidden="true">5.2.</strong> Admin area and superuser</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Reference Guide</li><li class="chapter-item expanded "><a href="../2.html"><strong aria-hidden="true">6.</strong> Command Line Tool</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="../misc/contributors.html">Contributors</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction </a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">First steps</li><li class="chapter-item expanded "><a href="../1-First_steps/index.html"><strong aria-hidden="true">1.</strong> Initializing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../1-First_steps/Ecommerce_file.html"><strong aria-hidden="true">1.1.</strong> Ecommerce file</a></li><li class="chapter-item expanded "><a href="../1-First_steps/Store_app_file.html"><strong aria-hidden="true">1.2.</strong> Store app file</a></li></ol></li><li class="chapter-item expanded "><a href="../2-Creating_first_page/creating_first_page.html"><strong aria-hidden="true">2.</strong> Creating first page</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Main content</li><li class="chapter-item expanded "><a href="../3-Creation-of-various-urls/3-Creation-of-various-urls.html"><strong aria-hidden="true">3.</strong> Creation of various urls</a></li><li class="chapter-item expanded "><a href="../4-Static-Archives/4-Static-Archives.html"><strong aria-hidden="true">4.</strong> Static Archives</a></li><li class="chapter-item expanded "><a href="../5-Databases/index.html"><strong aria-hidden="true">5.</strong> Databases</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../5-Databases/database-models.html" class="active"><strong aria-hidden="true">5.1.</strong> Database models</a></li><li class="chapter-item expanded "><a href="../5-Databases/admin-area.html"><strong aria-hidden="true">5.2.</strong> Admin area and superuser</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Reference Guide</li><li class="chapter-item expanded "><a href="../2.html"><strong aria-hidden="true">6.</strong> Command Line Tool</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><a href="../misc/contributors.html">Contributors</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -173,45 +173,140 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="initializing"><a class="header" href="#initializing">Initializing</a></h1>
-<ol>
-<li>Create a virtual enviroment in vscode</li>
-<li>Install django on the cmd prompt</li>
-</ol>
-<pre><code>pip install django
+                        <h1 id="database-models"><a class="header" href="#database-models">Database models</a></h1>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Client</th></tr></thead><tbody>
+<tr><td style="text-align: center">name</td></tr>
+<tr><td style="text-align: center">email</td></tr>
+<tr><td style="text-align: center">phone</td></tr>
+<tr><td style="text-align: center">user</td></tr>
+</tbody></table>
+</div>
+<hr />
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Categories (Ex: Masculine, feminine, infant, etc.)</th></tr></thead><tbody>
+<tr><td style="text-align: center">name</td></tr>
+</tbody></table>
+</div>
+<hr />
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Types (Ex: shirts, shorts, pants, etc)</th></tr></thead><tbody>
+<tr><td style="text-align: center">name</td></tr>
+</tbody></table>
+</div>
+<hr />
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Product</th></tr></thead><tbody>
+<tr><td style="text-align: center">image</td></tr>
+<tr><td style="text-align: center">name</td></tr>
+<tr><td style="text-align: center">price</td></tr>
+<tr><td style="text-align: center">active_state (cant delete the whole database if inactive as it would also delete all the history entries)</td></tr>
+<tr><td style="text-align: center">category</td></tr>
+<tr><td style="text-align: center">type</td></tr>
+</tbody></table>
+</div>
+<hr />
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Itemstock (different variations of the item)</th></tr></thead><tbody>
+<tr><td style="text-align: center">product (Ex: shorts)</td></tr>
+<tr><td style="text-align: center">color</td></tr>
+<tr><td style="text-align: center">size (Ex: XL, L, M, etc)</td></tr>
+<tr><td style="text-align: center">quantity</td></tr>
+</tbody></table>
+</div>
+<hr />
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Adress</th></tr></thead><tbody>
+<tr><td style="text-align: center">street</td></tr>
+<tr><td style="text-align: center">number</td></tr>
+<tr><td style="text-align: center">apartment</td></tr>
+<tr><td style="text-align: center">zip_code</td></tr>
+<tr><td style="text-align: center">city</td></tr>
+<tr><td style="text-align: center">state</td></tr>
+<tr><td style="text-align: center">client</td></tr>
+</tbody></table>
+</div>
+<hr />
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Order</th></tr></thead><tbody>
+<tr><td style="text-align: center">client</td></tr>
+<tr><td style="text-align: center">end_date</td></tr>
+<tr><td style="text-align: center">finished</td></tr>
+<tr><td style="text-align: center">id_transaction</td></tr>
+<tr><td style="text-align: center">adress</td></tr>
+</tbody></table>
+</div>
+<hr />
+<p>With the prelimenary model ready we now can create the models themselves using classes, starting with the client model:</p>
+<pre><code class="language-python">class Client(models.Model): #? dont use plural names as django automatically puts a 's' after the name. Also a id is automatically created for each class
+    name = models.CharField(max_length=200, null=True, blank=True) #? charfields are text fields. max_length determines the max number of characters
+    email = models.CharField(max_length=200, null=True, blank=True)
+    phone = models.CharField(max_length=200, null=True, blank=True)
+    id_session = models.CharField(max_length=200, null=True, blank=True)
+    user = models.OneToOneField(User, null = True, blank = True, on_delete = models.CASCADE) #? each client can only be one user and one user can only be one client. Cascade deletes everyting associated to the user if its account is deleted
 </code></pre>
-<ol start="3">
-<li>Whithout exiting the comand prompt, create the necessary project folders with:</li>
-</ol>
-<pre><code>django-admin startproject ecommerce
+<p>Note: We added the null=True and blank=True parameters as the client will be able to perform purchases whithout having to create a account. The id_session attribute will be used to store the data provided by said users.</p>
+<p>You also need to import the default table for Users in django used in authentication processes:</p>
+<pre><code class="language-python">from django.contrib.auth.models import User
 </code></pre>
-<p><img src="image/README/1712076176883.png" alt="1712076176883" /></p>
-<p>A django site is composed of many "apps" (sub-sites) that contain major features of the main site. Ex: a blog would be a separate "app" from a online store as they have significantly different features</p>
-<pre><code>4. In order to perform actions and tests we always need to be located inside the main ecommerce directory.
+<p>Now we will repeat the procedure for the other elements, with slight variations that are shown in the code:</p>
+<pre><code class="language-python">class Categoric(models.Model):
+    name = models.CharField(max_length=200, null=True, blank=True)
+
+
+class Type(models.Model):
+    name = models.CharField(max_length=200, null=True, blank=True)
+
+class Product(models.Model):
+    image = models.CharField(max_length = 400, null=True, blank=True) #? we will store the file name of the image so it can be accessed in the images folder
+    name = models.CharField(max_length=200, null=True, blank=True)
+    price = models.DecimalField(max_digits = 7, decimal_places = 2, null=True, blank=True) #? max price is 99,999.99
+    active = models.BooleanField(default=True)
+    category = models.ForeignKey(Categoric, blank=True, null=True, on_delete=models.SET_NULL) #? primary key is a id associated to only that category,ForeignKey relates a category to another category with a diferent id. One product has only one category but one category has many products
+    product_type = models.ForeignKey(Type, blank=True, null=True, on_delete=models.SET_NULL) #? When you delete a type or category, it will only set that product type to null, and not all the others when using CASCADE
+
+class ItemStock(models.Model):
+    product = models.ForeignKey(Product, blank=True, null=True, on_delete=models.SET_NULL) #? one itemstock is associated to a single product however one product can have many itemstocks
+    color = models.CharField(max_length=200, null=True, blank=True)
+    size = models.CharField(max_length=200, null=True, blank=True)
+    quantity = models.IntegerField(default=0)
+
+
+class Adres(models.Model):
+    street = models.CharField(max_length=200, null=True, blank=True)
+    number = models.IntegerField(default=0)
+    apartment = models.CharField(max_length=200, null=True, blank=True)
+    zip_code = models.CharField(max_length=200, null=True, blank=True)
+    city = models.CharField(max_length=200, null=True, blank=True)
+    state = models.CharField(max_length=200, null=True, blank=True)
+    client = models.ForeignKey(Client, blank=True, null=True, on_delete=models.SET_NULL)
+
+
+class Order(models.Model):
+    client = models.ForeignKey(Client, blank=True, null=True, on_delete=models.SET_NULL)
+    end_date = models.DateTimeField(null=True, blank=True)
+    finished = models.BooleanField(default=False)
+    id_transaction = models.CharField(max_length=200, null=True, blank=True)
+    adress = models.ForeignKey(Adres, blank=True, null=True, on_delete=models.SET_NULL)
+
+
+class OrderedItems(models.Model):
+    itemstock = models.ForeignKey(ItemStock, blank=True, null=True, on_delete=models.SET_NULL)
+    quantity = models.IntegerField(default=0)
+    order = models.ForeignKey(Order, blank=True, null=True, on_delete=models.SET_NULL)
+
 </code></pre>
-<pre><code>cd ecommerce
+<p><strong>Note: Some classes such as 'adres' are itentionally written wrong as django automatically places a s after the names of the classes.</strong></p>
+<p>Migrating the changes to the main database throught the cmd prompt:</p>
+<pre><code>python manage.py makemigrations
 </code></pre>
-<pre><code>5. To create our first "app" (the store website), we need to run the following command that will create the folders and files necessary for its creation:
+<p><img src="image/database-models/1712087894878.png" alt="1712087894878" /></p>
+<pre><code>python manage.py migrate
 </code></pre>
-<pre><code>python manage.py startapp store
-</code></pre>
-<p><img src="image/README/1711998730602.png" alt="1711998730602" /></p>
-<ol start="6">
-<li>Lastly, in order to run the app localy use the following command:</li>
-</ol>
-<pre><code>python manage.py startapp store
-</code></pre>
-<p>And click the local host link that will be shown.</p>
+<p><img src="image/database-models/1712087970118.png" alt="1712087970118" /></p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../5-Databases/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../1-First_steps/Ecommerce_file.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../5-Databases/admin-area.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -221,11 +316,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../5-Databases/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../1-First_steps/Ecommerce_file.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../5-Databases/admin-area.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
