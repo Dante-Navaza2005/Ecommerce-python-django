@@ -173,7 +173,35 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="chapter-1"><a class="header" href="#chapter-1">Chapter 1</a></h1>
+                        <h1 id="initializing"><a class="header" href="#initializing">Initializing</a></h1>
+<ol>
+<li>Create a virtual enviroment in vscode</li>
+<li>Install django on the cmd prompt</li>
+</ol>
+<pre><code>pip install django
+</code></pre>
+<ol start="3">
+<li>Whithout exiting the comand prompt, create the necessary project folders with:</li>
+</ol>
+<pre><code>django-admin startproject ecommerce
+</code></pre>
+<p><img src="image/README/1712076176883.png" alt="1712076176883" /></p>
+<p>A django site is composed of many "apps" (sub-sites) that contain major features of the main site. Ex: a blog would be a separate "app" from a online store as they have significantly different features</p>
+<pre><code>4. In order to perform actions and tests we always need to be located inside the main ecommerce directory.
+</code></pre>
+<pre><code>cd ecommerce
+</code></pre>
+<pre><code>5. To create our first "app" (the store website), we need to run the following command that will create the folders and files necessary for its creation:
+</code></pre>
+<pre><code>python manage.py startapp store
+</code></pre>
+<p><img src="image/README/1711998730602.png" alt="1711998730602" /></p>
+<ol start="6">
+<li>Lastly, in order to run the app localy use the following command:</li>
+</ol>
+<pre><code>python manage.py startapp store
+</code></pre>
+<p>And click the local host link that will be shown.</p>
 
                     </main>
 
