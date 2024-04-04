@@ -29,12 +29,12 @@ cd ecommerce
 python manage.py startapp store
 ```
 
-![1711998730602](image/README/1711998730602.png)
+![1712257832621](image/README/1712257832621.png)
 
 6. Lastly, in order to run the app localy use the following command:
 
 ```
-python manage.py startapp store
+python manage.py runserver
 ```
 
 And click the local host link that will be shown.
