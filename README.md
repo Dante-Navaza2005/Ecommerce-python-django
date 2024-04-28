@@ -4,7 +4,7 @@
   <br/><br/>
   <img width="130" alt="Dante" src="https://revistaazul.voeazul.com.br/wp-content/uploads/2023/03/muito-alem-da-praia-saiba-o-que-fazer-no-rio-de-janeiro.jpeg"/>
   <br/><br/>
-  <b><a href="https://drive.google.com/file/d/1P1ckjVeNEzY2vsotrbJ40tccq3k0RTRE/view?usp=sharing">Download .exe folder</a></b> | <b><a href="https://airbnb-rio-de-janeiro.onrender.com/">Wikipedia</a></b> | <b><a href="https://github.com/Dante-Navaza2005">My profile</a></b> | <b><a href="https://www.linkedin.com/in/dante-navaza/">LinkedIn</a></b>
+  <b><a href="https://drive.google.com/file/d/1P1ckjVeNEzY2vsotrbJ40tccq3k0RTRE/view?usp=sharing">Download .exe folder</a></b> | <b><a href="https://dantes-organization-3.gitbook.io/django-ecommerce/">Wikipedia</a></b> | <b><a href="https://github.com/Dante-Navaza2005">My profile</a></b> | <b><a href="https://www.linkedin.com/in/dante-navaza/">LinkedIn</a></b>
   <br/><br/>
   <a href="https://github.com/Dante-Navaza2005/Airbnb-Rio-de-Janeiro/releases"><img src="https://img.shields.io/github/v/release/Dante-Navaza2005/Airbnb-Rio-de-Janeiro?loo=hackthebox&color=609966&logoColor=fff" alt="Latest Release"/></a>
   <a target="_blank" href="https://github.com/Dante-Navaza2005/Airbnb-Rio-de-Janeiro"><img src="https://img.shields.io/github/last-commit/Dante-Navaza2005/Airbnb-Rio-de-Janeiro?logo=github&color=609966&logoColor=fff" alt="Last commit"/></a>
