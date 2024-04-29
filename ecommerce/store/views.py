@@ -4,8 +4,9 @@ from django.shortcuts import render
 def homepage(request): #? the first parameter always has to be a request
     return render(request, 'homepage.html') #? returns the homepage
 
-def store(request): 
-    return render(request, 'store.html') 
+def store(request):
+    context = {"Name" : "Dante"} 
+    return render(request, 'store.html', context) 
 
 def cart(request): 
     return render(request, 'cart.html') 

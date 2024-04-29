@@ -73,12 +73,14 @@ class Type(models.Model):
         return str(self.name)
 
 class Product(models.Model):
-    image = models.CharField(max_length = 400, null=True, blank=True) #? we will store the file name of the image so it can be accessed in the images folder
+    image = models.ImageField(null=True, blank=True) #? we will store the file name of the image so it can be accessed in the images folder
     name = models.CharField(max_length=200, null=True, blank=True)
     price = models.DecimalField(max_digits = 7, decimal_places = 2, null=True, blank=True) #? max price is 99,999.99
     active = models.BooleanField(default=True)
     category = models.ForeignKey(Categoric, blank=True, null=True, on_delete=models.SET_NULL) #? primary key is a id associated to only that category,ForeignKey relates a category to another category with a diferent id. One product has only one category but one category has many products
     product_type = models.ForeignKey(Type, blank=True, null=True, on_delete=models.SET_NULL) #? When you delete a type or category, it will only set that product type to null, and not all the others when using CASCADE
+    def __str__(self) :
+        return f"Name: {self.name}, Category: {self.category}, Type: {self.product_type}, Price: {self.price}" 	
 
 class ItemStock(models.Model):
     product = models.ForeignKey(Product, blank=True, null=True, on_delete=models.SET_NULL) #? one itemstock is associated to a single product however one product can have many itemstocks
