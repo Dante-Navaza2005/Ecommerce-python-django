@@ -6,6 +6,14 @@
 <h3>
     Store 
 </h3> 
-{{ Name }}
+
+{% for product in products %}
+
+<img src="{{ product.image.url }}" width = "300" height = "450"> <!--returns the url of the image -->
+<p>Product: {{ product.name }}</p>  <!-- Originally, what will be displayed in product is what is returned in its respective __str__ function on the models file-->
+<p>Price: {{ product.price }}</p>
+
+{% endfor %}
+
 
 {% endblock %}

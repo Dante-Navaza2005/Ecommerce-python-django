@@ -125,6 +125,11 @@ STATIC_URL = 'static/' #? the link where the static files are hosted
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images') #? the folder where the image files are saved
+
+MEDIA_URL = "images/" #? the URL where the static files are hosted
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 

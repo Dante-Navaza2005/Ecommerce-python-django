@@ -111,3 +111,11 @@ class OrderedItem(models.Model):
     itemstock = models.ForeignKey(ItemStock, blank=True, null=True, on_delete=models.SET_NULL)
     quantity = models.IntegerField(default=0)
     order = models.ForeignKey(Order, blank=True, null=True, on_delete=models.SET_NULL)
+
+class Banner(models.Model) :
+    image = models.ImageField(null=True, blank=True)
+    link_output = models.CharField(max_length=400, null=True, blank=True) #? where the user will be sent after clicking the banner
+    active = models.BooleanField(default=False) #? whether the link is currently active or not
+
+    def __str__(self):
+        return f"{self.link_output} - Active: {self.active}"
