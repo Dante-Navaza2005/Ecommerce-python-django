@@ -8,7 +8,7 @@
 </h3>
 
 {% for banner in banners %}
-<a href="{% url 'store' %}{{ banner.link_output }}"> <!-- joining the homepage url (using '/') to the product url from the banner -->
+<a href="{% url 'store' banner.link_output %}"> <!-- joining the homepage url  to the category variable from the banner -->
     <img src = "{{ banner.image.url}}">
 </a>
 

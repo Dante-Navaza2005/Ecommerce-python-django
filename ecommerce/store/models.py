@@ -82,12 +82,21 @@ class Product(models.Model):
     def __str__(self) :
         return f"Name: {self.name}, Category: {self.category}, Type: {self.product_type}, Price: {self.price}" 	
 
+class Color(models.Model):
+    name = models.CharField(max_length=200, null=True, blank=True)
+    code = models.CharField(max_length=200, null=True, blank=True) #? color code is a hex code
+
+    def __str__(self) :
+        return str(self.name)
+
 class ItemStock(models.Model):
     product = models.ForeignKey(Product, blank=True, null=True, on_delete=models.SET_NULL) #? one itemstock is associated to a single product however one product can have many itemstocks
-    color = models.CharField(max_length=200, null=True, blank=True)
+    color = models.ForeignKey(Color, blank=True, null=True, on_delete=models.SET_NULL)
     size = models.CharField(max_length=200, null=True, blank=True)
     quantity = models.IntegerField(default=0)
 
+    def __str__(self):
+        return f"{self.product.name} - Color: {self.color} - Size: {self.size}"
 
 class Adres(models.Model):
     street = models.CharField(max_length=200, null=True, blank=True)

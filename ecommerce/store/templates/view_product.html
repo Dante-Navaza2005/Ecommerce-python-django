@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+
+<h3>{{ product.name }}</h3> 
+
+{% if has_stock %}
+
+<img src="{{ product.image.url }}" width = "300" height = "450"> <!--returns the url of the image -->
+<p>Product: {{ product.name }}</p>  <!-- Originally, what will be displayed in product is what is returned in its respective __str__ function on the models file-->
+<p>Price: {{ product.price }}</p>
+
+{% for color in colors %}
+
+{{ color.name }}
+<i class="fa-solid fa-circle" style="color: {{ color.code }}"></i> <!--False positive, html doesnt recognize the django format but it is correct -->
+
+{% endfor %}
+
+<button>Add to Cart</button>
+
+{% else %}
+
+<p>Out of Stock</p>
+
+{% endif %}
+
+{% endblock %}

@@ -25,3 +25,15 @@ def your_account(request):
 
 def login(request): 
     return render(request, 'user/login.html') 
+
+def view_product(request, product_id) :
+    product = Product.objects.get(id=product_id) #? id parameter is created automatically by django
+    item_stock = ItemStock.objects.filter(product = product, quantity__gt = 0) #? gets the product that has more than 0 quantity (queryset lookup)
+    if len(item_stock) > 0 : 
+        has_stock = True #? necessary in order to do a if on the html. if the product is out of stock, will show "Out of Stock"
+        colors = {item.color for item in item_stock} #? gets the colors of all products, uses sets '{}' to avoid duplicate colors
+    else :
+        has_stock = False
+        colors = {} #? needs to be declared
+    context = {'product': product, 'item_stock': item_stock, "has_stock" : has_stock, "colors" : colors}
+    return render(request, 'view_product.html', context)

@@ -6,6 +6,7 @@ urlpatterns = [
     path('store/', store, name="store"),
     
     path('store/<str:category_name>', store, name="store"), #? comes after the fixed urls, allows to create multiple urls with varied names
+    path('product/<int:product_id>', view_product, name="view_product"),
     
     path('youraccount/', your_account, name="your_account"), 
     path('login/', login, name="login"), 

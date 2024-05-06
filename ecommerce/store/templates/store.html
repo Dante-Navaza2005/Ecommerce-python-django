@@ -9,7 +9,9 @@
 
 {% for product in products %}
 
-<img src="{{ product.image.url }}" width = "300" height = "450"> <!--returns the url of the image -->
+<a href = "{% url 'view_product' product.id %}">
+    <img src="{{ product.image.url }}" width = "300" height = "450"> <!--returns the url of the image -->
+</a>
 <p>Product: {{ product.name }}</p>  <!-- Originally, what will be displayed in product is what is returned in its respective __str__ function on the models file-->
 <p>Price: {{ product.price }}</p>
 
