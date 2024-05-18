@@ -26,7 +26,7 @@ def your_account(request):
 def login(request): 
     return render(request, 'user/login.html') 
 
-def view_product(request, product_id) :
+def view_product(request, product_id, id_color = None) :
     product = Product.objects.get(id=product_id) #? id parameter is created automatically by django
     item_stock = ItemStock.objects.filter(product = product, quantity__gt = 0) #? gets the product that has more than 0 quantity (queryset lookup)
     if len(item_stock) > 0 : 
