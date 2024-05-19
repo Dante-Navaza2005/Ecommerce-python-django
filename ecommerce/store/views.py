@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import *
 
 # Create your views here.
@@ -14,6 +14,18 @@ def store(request, category_name = None):
     context = {"products" : products} 
     return render(request, 'store.html', context) 
 
+def add_to_cart(request, product_id):
+    if request.method == "POST" and product_id : #? if the user is sending a new product
+        data = request.POST.dict() #? converts the request data to a dictionary
+        size = data.get('size') #? used get instead of ['size] as it wont return a error
+        color_id = data.get('color')
+        print(size)
+        if not size:
+            return redirect('store')
+        return redirect('cart')
+    else :
+        return redirect('store') #? redirect the user to the store if he didn't choose a product
+
 def cart(request): 
     return render(request, 'cart.html') 
 
@@ -27,13 +39,21 @@ def login(request):
     return render(request, 'user/login.html') 
 
 def view_product(request, product_id, id_color = None) :
+    has_stock = False
+    sizes = {}
+    colors = {} #? needs to be declared
+    selected_color = None
     product = Product.objects.get(id=product_id) #? id parameter is created automatically by django
     item_stock = ItemStock.objects.filter(product = product, quantity__gt = 0) #? gets the product that has more than 0 quantity (queryset lookup)
     if len(item_stock) > 0 : 
         has_stock = True #? necessary in order to do a if on the html. if the product is out of stock, will show "Out of Stock"
         colors = {item.color for item in item_stock} #? gets the colors of all products, uses sets '{}' to avoid duplicate colors
-    else :
-        has_stock = False
-        colors = {} #? needs to be declared
-    context = {'product': product, 'item_stock': item_stock, "has_stock" : has_stock, "colors" : colors}
+        if id_color :
+            selected_color = Color.objects.get(id = id_color) #? gets the color object from the Color class
+            item_stock = ItemStock.objects.filter(product = product, quantity__gt = 0, color__id = id_color) #? gets the color id  attribute from the Color class (that is automatically created)
+            sizes = {item.size for item in item_stock} #? gets the sizes of all products
+    context = {'product': product, "has_stock" : has_stock, "colors" : colors, "sizes" : sizes, "selected_color" : selected_color}
     return render(request, 'view_product.html', context)
+
+#! Always when a user creates a account on the website we will create a client for him
+

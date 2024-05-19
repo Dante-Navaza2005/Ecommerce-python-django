@@ -61,6 +61,9 @@ class Client(models.Model): #? dont use plural names as django automatically put
     id_session = models.CharField(max_length=200, null=True, blank=True)
     user = models.OneToOneField(User, null = True, blank = True, on_delete = models.CASCADE) #? each client can only be one user and one user can only be one client. Cascade deletes everyting associated to the user if its account is deleted
 
+    def __str__(self) :
+        return str(self.email)
+    
 class Categoric(models.Model):
     name = models.CharField(max_length=200, null=True, blank=True)
 
@@ -114,6 +117,9 @@ class Order(models.Model):
     finished = models.BooleanField(default=False)
     id_transaction = models.CharField(max_length=200, null=True, blank=True)
     adress = models.ForeignKey(Adres, blank=True, null=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return f"Client: {self.client.email} - id_order: {self.id}"
 
 
 class OrderedItem(models.Model):
