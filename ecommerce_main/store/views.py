@@ -44,8 +44,6 @@ def cart(request):
     
     order, created = Order.objects.get_or_create(client=client, finished=False) 
     items_ordered = OrderedItem.objects.filter(order = order)
-    for item in items_ordered:
-        print(item.total_price)
     context = {"order" : order, "items_ordered" : items_ordered}
     return render(request, 'cart.html', context) 
 

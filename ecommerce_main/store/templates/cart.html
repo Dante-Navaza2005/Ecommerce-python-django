@@ -10,7 +10,12 @@
 {% for item in items_ordered %}
 <p>
     <img src="{{ item.itemstock.product.image.url }}" width = "60" height = "80">
-    Product: {{ item.itemstock.product.name }}; Color: {{ item.itemstock.color.name }}; Size: {{ item.itemstock.size }}; Quantity: {{ item.quantity}}; Unit Price: {{ item.itemstock.product.price }}; Total Price: R${{ item.total_price }}
+    Product: {{ item.itemstock.product.name }}; 
+    Color: {{ item.itemstock.color.name }}; 
+    Size: {{ item.itemstock.size }}; 
+    Quantity: {{ item.quantity}}; 
+    Unit Price: {{ item.itemstock.product.price }}; 
+    Total Price: R${{ item.total_price }}
 </p>
 {% endfor %}
 <a href = "{% url 'checkout' %}">Checkout</a>
