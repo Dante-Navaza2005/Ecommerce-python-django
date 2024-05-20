@@ -19,15 +19,35 @@ def add_to_cart(request, product_id):
         data = request.POST.dict() #? converts the request data to a dictionary
         size = data.get('size') #? used get instead of ['size] as it wont return a error
         color_id = data.get('color')
-        print(size)
         if not size:
             return redirect('store')
+        #!getting the client
+        if request.user.is_authenticated:
+            client = request.user.client
+        else :
+            return redirect('store')
+        order, created = Order.objects.get_or_create(client=client, finished=False)
+        item_stock = ItemStock.objects.get(product__id=product_id, size=size, color=color_id) #? In the forms we enter the color, id, and the size
+        item_ordered, created = OrderedItem.objects.get_or_create(order=order, itemstock=item_stock) #? adding the product to the cart
+        item_ordered.quantity += 1
+        item_ordered.save() #? Must save changes made directly to a element
         return redirect('cart')
     else :
         return redirect('store') #? redirect the user to the store if he didn't choose a product
 
+def remove_from_cart(request) :
+    return redirect('cart')
+
 def cart(request): 
-    return render(request, 'cart.html') 
+    if request.user.is_authenticated:
+        client = request.user.client
+    
+    order, created = Order.objects.get_or_create(client=client, finished=False) 
+    items_ordered = OrderedItem.objects.filter(order = order)
+    for item in items_ordered:
+        print(item.total_price)
+    context = {"order" : order, "items_ordered" : items_ordered}
+    return render(request, 'cart.html', context) 
 
 def checkout(request): 
     return render(request, 'checkout.html') 
