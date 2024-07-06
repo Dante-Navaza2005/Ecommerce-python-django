@@ -103,6 +103,10 @@ def checkout(request):
     context = {"order" : order, "addresses" : addresses}
     return render(request, 'checkout.html', context) 
 
+def add_address(request) :
+    context = {}
+    return render(request, 'add_address.html', context)
+
 def your_account(request): 
     return render(request, 'user/your_account.html') 
 

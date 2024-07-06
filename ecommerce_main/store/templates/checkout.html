@@ -16,6 +16,8 @@
 <form method="POST" action="">
         {% csrf_token %}
         <h3>Select the delivery address</h3>
+        <a href="{% url 'add_address' %}">delivery address</a>
+        <br>
     {% for address in addresses %}
     <input type="radio" name="adress" value="{{ address.id }}"> <!--Radio button -> choose one option, all connected to the same name. Value is what is sent to the website-->
     <label for= "{{ address.id }}">{{ address.city }} - {{ address.state }} - {{ address.street }} - {{ address.number }} - {{ address.apartment }} - {{ address.zip_code }}</label> <!--Button text, for tag vinculates each button the the size-->
@@ -23,10 +25,13 @@
     {% endfor %}
 
     {% if not request.user.is_authenticated %} 
+        <hr>
         <h4>Fill in your email to finish your order</h4>
         <input type="email" placeholder="email"> <!--Placeholder is the transparent text that appears before-->
     {% endif %}
-
+    <hr>
+    <input type="hidden" value="{{ order.total_cost }}" name="total">
+    <button type="submit">Confirm Order - R$ {{ order.total_cost }}</button>
 </form>
 
 
