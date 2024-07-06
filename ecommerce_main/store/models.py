@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Create your models here.
 
 # Client
     # name
@@ -52,7 +51,7 @@ from django.contrib.auth.models import User
     # client
 
 
-
+# Create your models here.
 
 class Client(models.Model): #? dont use plural names as django automatically puts a 's' after the name. Also a id is automatically created for each class
     name = models.CharField(max_length=200, null=True, blank=True) #? charfields are text fields. max_length determines the max number of characters
@@ -110,6 +109,8 @@ class Adres(models.Model):
     state = models.CharField(max_length=200, null=True, blank=True)
     client = models.ForeignKey(Client, blank=True, null=True, on_delete=models.SET_NULL)
 
+    def __str__(self) -> str:
+        return f"{self.client} - {self.street} - {self.city}"
 
 class Order(models.Model):
     client = models.ForeignKey(Client, blank=True, null=True, on_delete=models.SET_NULL)

@@ -1,11 +1,15 @@
-from .models import Order, OrderedItem
+from .models import Order, OrderedItem, Client
 
 def cart(request) :
     product_amount_cart = 0
     if request.user.is_authenticated:
         client = request.user.client #? one to one relationship
     else :
-        return {"product_amount_cart" : product_amount_cart}
+        if request.COOKIES.get('id_session') :
+            id_session = request.COOKIES.get("id_session")
+            client, created = Client.objects.get_or_create(id_session=id_session)
+        else : #? if the client enters directly on the cart, whithout generating cookies
+            return {"product_amount_cart" : product_amount_cart} #? return initial quantity, which is 0
     order, created = Order.objects.get_or_create(client=client, finished=False) #? will get or create a new order if there is none for the client mentioned above. Will return the order and a boolean that says if it was created or not
     #! How many products are on the user's order
     items_ordered = OrderedItem.objects.filter(order = order) #? gets all the items of the order

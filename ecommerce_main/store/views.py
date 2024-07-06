@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import *
+import uuid
 
 # Create your views here.
 def homepage(request): #? the first parameter always has to be a request
@@ -17,21 +18,29 @@ def store(request, category_name = None):
 def add_to_cart(request, product_id):
     if request.method == "POST" and product_id : #? if the user is sending a new product
         data = request.POST.dict() #? converts the request data to a dictionary
-        size = data.get('size') #? used get instead of ['size] as it wont return a error
+        size = data.get('size') #? used get instead of ['size'] as it wont return a error
         color_id = data.get('color')
-        if not size:
+        if not size: #? only check the size as it only appears after selecting the color
             return redirect('store')
+        
         #!getting the client
+        answer = redirect('cart') #? to implement cookies we need to edit the redirect response
         if request.user.is_authenticated:
             client = request.user.client
         else :
-            return redirect('store')
+            if request.COOKIES.get("id_session") : #? checks if there is already a registred anonymous session
+                id_session = request.COOKIES.get("id_session")
+            else :
+                id_session = str(uuid.uuid4()) #? uuid4 guarantees uniqueness and safety
+                answer.set_cookie(key="id_session", value=id_session, max_age=60*60*24*40) #? max age in seconds
+            client, created = Client.objects.get_or_create(id_session=id_session) 
+            
         order, created = Order.objects.get_or_create(client=client, finished=False)
         item_stock = ItemStock.objects.get(product__id=product_id, size=size, color=color_id) #? In the forms we enter the color, id, and the size
         item_ordered, created = OrderedItem.objects.get_or_create(order=order, itemstock=item_stock) #? adding the product to the cart
         item_ordered.quantity += 1
         item_ordered.save() #? Must save changes made directly to a element
-        return redirect('cart')
+        return answer
     else :
         return redirect('store') #? redirect the user to the store if he didn't choose a product
 
@@ -46,7 +55,11 @@ def remove_from_cart(request, product_id) :
         if request.user.is_authenticated:
             client = request.user.client
         else :
-            return redirect('store')
+            if request.COOKIES.get('id_session') :
+                id_session = request.COOKIES.get("id_session")
+                client, created = Client.objects.get_or_create(id_session=id_session)
+            else : #? if the client enters directly on the cart, whithout generating cookies
+                return redirect('store') #? return directly to the store as the cart should be empty
         order, created = Order.objects.get_or_create(client=client, finished=False)
         item_stock = ItemStock.objects.get(product__id=product_id, size=size, color=color_id) #? In the forms we enter the color, id, and the size
         item_ordered, created = OrderedItem.objects.get_or_create(order=order, itemstock=item_stock) #? adding the product to the cart
@@ -58,17 +71,37 @@ def remove_from_cart(request, product_id) :
     else :
         return redirect('store') #? redirect the user to the store if he didn't choose a product
 
-def cart(request): 
+def cart(request):
+
+    #! getting the client
     if request.user.is_authenticated:
         client = request.user.client
-    
+    else :
+        if request.COOKIES.get('id_session') :
+            id_session = request.COOKIES.get("id_session")
+            client, created = Client.objects.get_or_create(id_session=id_session)
+        else : #? if the client enters directly on the cart, whithout generating cookies
+            context = {"existing_client": False, "order" : None, "items_ordered" : None}
+            return render(request, 'cart.html', context) 
     order, created = Order.objects.get_or_create(client=client, finished=False) 
     items_ordered = OrderedItem.objects.filter(order = order)
-    context = {"order" : order, "items_ordered" : items_ordered}
+    context = {"order" : order, "items_ordered" : items_ordered, "existing_client": True}
     return render(request, 'cart.html', context) 
 
 def checkout(request): 
-    return render(request, 'checkout.html') 
+    #! getting the client
+    if request.user.is_authenticated:
+        client = request.user.client
+    else :
+        if request.COOKIES.get('id_session') :
+            id_session = request.COOKIES.get("id_session")
+            client, created = Client.objects.get_or_create(id_session=id_session)
+        else : #? if the client enters directly on the cart, whithout generating cookies
+            return redirect('store') #? return directly to the store as the cart should be empty
+    order, created = Order.objects.get_or_create(client=client, finished=False) 
+    addresses = Adres.objects.filter(client=client) #? filters all adresses associated with the client
+    context = {"order" : order, "addresses" : addresses}
+    return render(request, 'checkout.html', context) 
 
 def your_account(request): 
     return render(request, 'user/your_account.html') 
@@ -94,4 +127,3 @@ def view_product(request, product_id, id_color = None) :
     return render(request, 'view_product.html', context)
 
 #! Always when a user creates a account on the website we will create a client for him
-
