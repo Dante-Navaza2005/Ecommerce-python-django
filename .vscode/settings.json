@@ -1,3 +1,4 @@
 {
-    "editor.fontFamily": "monospace"
+    "editor.fontFamily": "monospace",
+    "editor.mouseWheelZoom": true
 }
