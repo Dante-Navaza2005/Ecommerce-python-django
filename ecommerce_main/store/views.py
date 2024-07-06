@@ -35,8 +35,28 @@ def add_to_cart(request, product_id):
     else :
         return redirect('store') #? redirect the user to the store if he didn't choose a product
 
-def remove_from_cart(request) :
-    return redirect('cart')
+def remove_from_cart(request, product_id) :
+    if request.method == "POST" and product_id : #? if the user is sending a new product
+        data = request.POST.dict() #? converts the request data to a dictionary
+        size = data.get('size') #? used get instead of ['size] as it wont return a error
+        color_id = data.get('color')
+        if not size:
+            return redirect('store')
+        #!getting the client
+        if request.user.is_authenticated:
+            client = request.user.client
+        else :
+            return redirect('store')
+        order, created = Order.objects.get_or_create(client=client, finished=False)
+        item_stock = ItemStock.objects.get(product__id=product_id, size=size, color=color_id) #? In the forms we enter the color, id, and the size
+        item_ordered, created = OrderedItem.objects.get_or_create(order=order, itemstock=item_stock) #? adding the product to the cart
+        item_ordered.quantity -= 1 #? only difference is that we are removing a item from the cart
+        item_ordered.save() #? Must save changes made directly to a element
+        if item_ordered.quantity <= 0 :
+            item_ordered.delete()
+        return redirect('cart')
+    else :
+        return redirect('store') #? redirect the user to the store if he didn't choose a product
 
 def cart(request): 
     if request.user.is_authenticated:
