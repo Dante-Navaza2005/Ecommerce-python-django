@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import *
 import uuid
+from .utility import filter_product
 
 # Create your views here.
 def homepage(request): #? the first parameter always has to be a request
@@ -8,10 +9,10 @@ def homepage(request): #? the first parameter always has to be a request
     context = {"banners" : banners}
     return render(request, 'homepage.html', context) #? returns the homepage
 
-def store(request, category_name = None):
+def store(request, filter = None):
     products = Product.objects.filter(active=True) #? grabbing all products from the database (queryset, result of the search of the database)
-    if category_name:
-        products = products.filter(category__slug = category_name) #? gets the slug atribute from the category class and filters it according to the name of the category obtained from the banner
+    if filter:
+        products = filter_product(products, filter) #? using the filter_product function to split the url from '-'
     context = {"products" : products} 
     return render(request, 'store.html', context) 
 
