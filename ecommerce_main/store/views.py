@@ -11,7 +11,7 @@ def homepage(request): #? the first parameter always has to be a request
 def store(request, category_name = None):
     products = Product.objects.filter(active=True) #? grabbing all products from the database (queryset, result of the search of the database)
     if category_name:
-        products = products.filter(category__name = category_name) #? gets the name atribute from the category class and filters it according to the name of the category obtained from the banner
+        products = products.filter(category__slug = category_name) #? gets the slug atribute from the category class and filters it according to the name of the category obtained from the banner
     context = {"products" : products} 
     return render(request, 'store.html', context) 
 
@@ -104,8 +104,22 @@ def checkout(request):
     return render(request, 'checkout.html', context) 
 
 def add_address(request) :
-    context = {}
-    return render(request, 'add_address.html', context)
+    if request.method == "POST" : #? handling the submission of the form
+        if request.user.is_authenticated:
+            client = request.user.client
+        else :
+            if request.COOKIES.get('id_session') :
+                id_session = request.COOKIES.get("id_session")
+                client, created = Client.objects.get_or_create(id_session=id_session)
+            else : #? if the client enters directly on the cart, whithout generating cookies
+                return redirect('store') #? return directly to the store as the cart should be empty
+        data = request.POST.dict() #? converts the request data to a dictionary
+        address = Adres.objects.create(client=client, street=data.get('street'), city=data.get('city'), state=data.get('state'), zip_code=data.get('zip_code'), number=int(data.get('number')), apartment=data.get('apartment'))
+        address.save()
+        return redirect('checkout') #? redirects the user to the checkout page to add more addresses if needed
+    else :
+        context = {}
+        return render(request, 'add_address.html', context)
 
 def your_account(request): 
     return render(request, 'user/your_account.html') 

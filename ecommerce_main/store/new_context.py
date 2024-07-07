@@ -1,4 +1,4 @@
-from .models import Order, OrderedItem, Client
+from .models import Order, OrderedItem, Client, Categoric, Type
 
 def cart(request) :
     product_amount_cart = 0
@@ -16,3 +16,9 @@ def cart(request) :
     for item in items_ordered:
         product_amount_cart += item.quantity #? adds the quantity of each item as one order can have many items
     return {"product_amount_cart" : product_amount_cart, "items_ordered" : items_ordered}
+
+
+def category_type(request) :
+    categories = Categoric.objects.all() 
+    types = Type.objects.all()
+    return {"categories" : categories, "types" : types}
