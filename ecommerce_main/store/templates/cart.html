@@ -17,7 +17,7 @@
         Color: {{ item.itemstock.color.name }}; 
         Size: {{ item.itemstock.size }}; 
         
-        <div style="display:flex;"> <!--Makes eveyrything in the same line-->
+        <div style="display:flex;"> <!--Makes everything in the same line-->
             Quantity: 
             <!--! REMOVE BUTTON -->
             <form method = "POST" action = "{% url 'remove_from_cart' item.itemstock.product.id %}"> <!--? Changed the product reference to the one being used in the code above-->

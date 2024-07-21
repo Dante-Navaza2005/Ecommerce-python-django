@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import *
 import uuid
-from .utility import filter_product
+from .utility import filter_product, min_max_price
 
 # Create your views here.
 def homepage(request): #? the first parameter always has to be a request
@@ -11,9 +11,34 @@ def homepage(request): #? the first parameter always has to be a request
 
 def store(request, filter = None):
     products = Product.objects.filter(active=True) #? grabbing all products from the database (queryset, result of the search of the database)
-    if filter:
-        products = filter_product(products, filter) #? using the filter_product function to split the url from '-'
-    context = {"products" : products} 
+    products = filter_product(products, filter) #? using the filter_product function to split the url from '-'
+
+    #! Applying the filters from the form
+    if request.method == 'POST':
+        data = request.POST.dict() #? converts the request data to a dictionary
+        products = products.filter(price__gte=data.get('min_price'), price__lte=data.get('max_price'))
+        if "size" in data :
+            items = ItemStock.objects.filter(product__in=products, size=data.get('size')) 
+            id_product = items.values_list("product", flat=True).distinct()
+            products = products.filter(id__in=id_product)
+        if "type" in data :
+            products = products.filter(product_type__slug=data.get('type'))
+        if "category" in data :
+            products = products.filter(category__slug=data.get('category'))
+
+    items = ItemStock.objects.filter(quantity__gt=0, product__in=products) #? getting the items of that product that have a quantity greater than 0
+    sizes = items.values_list("size", flat=True).distinct() #? getting the sizes of the items, flat parameter makes it return a single-column list of values instead of tuple
+    
+    #? making only the available categories and types appear
+    id_type = products.values_list("product_type", flat=True).distinct()
+    types = Type.objects.filter(id__in=id_type)
+    id_categories = products.values_list("category", flat=True).distinct()
+    categories = Categoric.objects.filter(id__in=id_categories)
+
+    
+    min_price, max_price = min_max_price(products)
+
+    context = {"products" : products, "min_price" : min_price, "max_price" : max_price, "sizes" : sizes, "categories" : categories, "types" : types} 
     return render(request, 'store.html', context) 
 
 def add_to_cart(request, product_id):
@@ -73,7 +98,6 @@ def remove_from_cart(request, product_id) :
         return redirect('store') #? redirect the user to the store if he didn't choose a product
 
 def cart(request):
-
     #! getting the client
     if request.user.is_authenticated:
         client = request.user.client

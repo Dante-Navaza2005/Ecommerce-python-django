@@ -19,6 +19,6 @@ def cart(request) :
 
 
 def category_type(request) :
-    categories = Categoric.objects.all() 
-    types = Type.objects.all()
-    return {"categories" : categories, "types" : types}
+    categories_navbar = Categoric.objects.all() 
+    types_navbar = Type.objects.all()
+    return {"categories_navbar" : categories_navbar, "types_navbar" : types_navbar}
