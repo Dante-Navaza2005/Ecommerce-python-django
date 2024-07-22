@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import *
 import uuid
-from .utility import filter_product, min_max_price
+from .utility import filter_product, min_max_price, order_products
 
 # Create your views here.
 def homepage(request): #? the first parameter always has to be a request
@@ -37,6 +37,10 @@ def store(request, filter = None):
 
     
     min_price, max_price = min_max_price(products)
+
+    #! Changing the order of the products
+    order = request.GET.get('order') #? gets the parameter value of 'order'
+    products = order_products(products, order)
 
     context = {"products" : products, "min_price" : min_price, "max_price" : max_price, "sizes" : sizes, "categories" : categories, "types" : types} 
     return render(request, 'store.html', context) 

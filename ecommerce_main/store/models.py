@@ -87,6 +87,11 @@ class Product(models.Model):
     def __str__(self) :
         return f"Name: {self.name}, Category: {self.category}, Type: {self.product_type}, Price: {self.price}" 	
 
+    def total_sales(self) :
+        items = OrderedItem.objects.filter(order__finished=True, itemstock__product=self.id) #? obtaining the id of that specific item on the stock, as a itemstock contains one product, returns a list of those products
+        total = sum([item.quantity for item in items])
+        return total
+
 class Color(models.Model):
     name = models.CharField(max_length=200, null=True, blank=True)
     code = models.CharField(max_length=200, null=True, blank=True) #? color code is a hex code

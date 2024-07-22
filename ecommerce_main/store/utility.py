@@ -22,3 +22,17 @@ def min_max_price (products) :
         max_price = round(max_price, 2) #? rounding to two decimal places
     
     return min_price, max_price
+
+def order_products(products, order) :
+    if order == "highest-price" :
+        products = products.order_by("-price")
+    elif order == "lowest-price" :
+        products = products.order_by("price")
+    elif order == "most-sold" :
+        product_list = []
+        for product in products :
+            product_list.append((product.total_sales(), product)) #? saved the quantity on the first position of the tuple list since sorted can order it based on the first index
+        product_list = sorted(product_list, reverse=True, key=lambda tuple: tuple[0])
+        products = [item[1] for item in product_list] #? grabbing the product from the ordered tuple list
+        
+    return products
