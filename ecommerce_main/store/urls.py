@@ -9,11 +9,13 @@ urlpatterns = [
     path('product/<int:product_id>/', view_product, name="view_product"),
     path('product/<int:product_id>/<int:id_color>/', view_product, name="view_product"),
     
-    path('youraccount/', your_account, name="your_account"), 
-    path('login/', login, name="login"), 
     path('cart/', cart, name="cart"), 
     path('checkout/', checkout, name="checkout"), 
     path('addtocart/<int:product_id>/', add_to_cart, name="add_to_cart"),
     path('removefromcart/<int:product_id>/', remove_from_cart, name="remove_from_cart"),
     path('addaddress/',add_address, name="add_address"),
+    
+    path('youraccount/', your_account, name="your_account"),  #? separated for organization purposes
+    path('perform_login/', perform_login, name="perform_login"), 
+    path('createaccount/', create_account, name="create_account"),
 ]

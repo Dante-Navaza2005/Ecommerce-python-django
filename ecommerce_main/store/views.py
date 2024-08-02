@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from .models import *
 import uuid
 from .utility import filter_product, min_max_price, order_products
+from django.contrib.auth import login, logout, authenticate
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 
 # Create your views here.
 def homepage(request): #? the first parameter always has to be a request
@@ -150,11 +153,6 @@ def add_address(request) :
         context = {}
         return render(request, 'add_address.html', context)
 
-def your_account(request): 
-    return render(request, 'user/your_account.html') 
-
-def login(request): 
-    return render(request, 'user/login.html') 
 
 def view_product(request, product_id, id_color = None) :
     has_stock = False
@@ -173,4 +171,75 @@ def view_product(request, product_id, id_color = None) :
     context = {'product': product, "has_stock" : has_stock, "colors" : colors, "sizes" : sizes, "selected_color" : selected_color}
     return render(request, 'view_product.html', context)
 
+def create_account(request) :
+    error = None
+    if request.user.is_authenticated :
+        return render(request, 'user/create_account.html')
+    if request.method == "POST" :
+        data = request.POST.dict()
+        if "email" in data and "password" in data and "confirm_password" in data:
+            #? create account
+            email = data.get("email")
+            password = data.get("password")
+            confirm_password = data.get("confirm_password")
+            try: #? used try as the function returns a error type
+                validate_email(email)
+            except ValidationError:
+                error = "invalid_email"
+            if password == confirm_password:
+                #? continue creating account
+                user, created = User.objects.get_or_create(username=email, email=email)
+                if not created:
+                    error = "user_exists"
+                else :
+                    user.set_password(password)
+                    user.save() #? saving the changes made to the user
+                    #? login the user
+                    user = authenticate(request, username=email, password=password)
+                    login(request,user)
+                    
+                    #? verify if id_session exists on cookies for anonimous users
+                    if request.COOKIES.get("id_session") :
+                        id_session = request.COOKIES.get("id_session")
+                        client, created = Client.objects.get_or_create(id_session=id_session)
+                    else:
+                        #? create the client
+                        client, created = Client.objects.get_or_create(email=email)
+                    client.user = user
+                    client.email = email
+                    client.save()
+                    return redirect('store')
+            else :
+                error = "different_password"
+        else :
+            error = "fill"
+    context = {"error" : error}
+    return render(request, 'user/create_account.html', context)
+def your_account(request): 
+    return render(request, 'user/your_account.html') 
+
+def perform_login(request):
+    error = False
+    if request.user.is_authenticated :
+        return redirect('store')
+    if request.method == "POST":
+        data = request.POST.dict()
+        if "email" in data and "password" in data :
+            email = data.get("email")
+            password = data.get("password")
+            user = authenticate(request, username=email, password=password) #? authenticating the user
+            if user :
+                #? perform login
+                login(request, user)
+                return redirect('store')
+            else :
+                #? We used booleans as there is only one type of error,
+                error = True
+        else :
+            error = True
+    
+    context = {"error" : error}
+    return render(request, 'user/login.html', context)
+
 #! Always when a user creates a account on the website we will create a client for him
+
